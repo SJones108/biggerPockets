@@ -1,25 +1,50 @@
-class RentalProperty:
-    def __init__(self, purchase_price, rental_income, operating_expenses, holding_period):
-        self.purchase_price = purchase_price
-        self.rental_income = rental_income
-        self.operating_expenses = operating_expenses
-        self.holding_period = holding_period
+class ROI:
+    def __init__(self) -> None:
+        self.sum= None
+        self.expense= None
+        self.income = None
+        self.tmd = None
 
-    def calculate_roi(self):
-        net_income = self.rental_income - self.operating_expenses
-        total_income = net_income * self.holding_period
-        total_cost = self.purchase_price * self.holding_period
-        return (total_income - total_cost) / total_cost
+    def getIncome(self):
+       rental_income = int(input("What is your monthly rent charge going to be? "))
+       laundry = int(input("What is your monthly laundry charge? "))
+       storage = int(input("What is your monthly storage charge? "))
+       misc = int(input("What is your monthly misc charge? "))
+       mi = (rental_income + laundry + storage + misc)
+       self.income = mi
+       print(f'You will make ${self.income} a month from this')
+  
+    def expenses(self):
+        taxes = int(input("How much are taxes? "))
+        insurance= int(input("What is your Insurance charge? "))
+        utilities =int(input("How much are utilities? "))
+        mortgage = int(input("What is the mortgage cost you pay? "))
+        repairs = int(input("What is the cost of repairs and cap expenses you budgeted? "))
+        propmang = int(input("What is the monthly cost for your property manager? "))
+        self.expense = (taxes + insurance + utilities + mortgage + repairs + propmang)
+        print(f'You will pay ${self.expense} a month from this')
+       
+    def cashflow(self):
+        self.tmd = (self.expense-self.income)
 
-# Get input values from user
-purchase_price = float(input("Enter the purchase price of the property: "))
-rental_income = float(input("Enter the monthly rental income: "))
-operating_expenses = float(input("Enter the monthly operating expenses: "))
-holding_period = int(input("Enter the holding period (in months): "))
+    def annualCash(self):
+        downpayment = int(input("How much are you putting down? "))
+        cc = int(input("How much are the closing cost? "))
+        rehab = int(input("What is your rehab budget per month? "))
+        ti = (downpayment) + (cc) + (rehab)
+        
+        self.cashflow()
+        cash = (self.tmd/ti)*100
+        print(f' Your ROI on this property is {round(cash,2)} %. ')
+          
+    def run(self):
+        info = input("Do you want to find the ROI for a proprty? or enter Q to quit")
+        while info != 'Q':
+            if info:
+                self.getIncome()
+                self.expenses()
+                self.annualCash()
+                break
 
-# Create RentalProperty object and calculate ROI
-property1 = RentalProperty(purchase_price, rental_income, operating_expenses, holding_period)
-roi = property1.calculate_roi()
-
-# Print the ROI result
-print(f"The Bigger Pockets ROI for this rental property is {roi:.2%}")
+r = ROI()
+r.run()
